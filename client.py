@@ -1,10 +1,12 @@
 import socket
-from time import sleep
+from time import sleep 
+
 
 sock = socket.socket()
 sock.setblocking(1)
 
 host = 'localhost'
+msg = ""
 
 mark = 0
 #проверка порта
@@ -25,15 +27,20 @@ while mark == 0:
 sock.connect((host, port))
 print("Соединение с сервером")
 
-msg = input()
+while (msg != "exit"):
 
-print("Отправка данных серверу")
-sock.send(msg.encode())
+	msg = input()
 
-print("Прием данных от сервера")
-print("Если вы хотите прервать соединение с сервером, введите \"exit\"")
-while (input() != "exit"):
+	print("Отправка данных серверу")
+	sock.send(msg.encode())
+
+	print("Прием данных от сервера")
+
+	#data = sock.recv(1024)
+
 	data = sock.recv(1024)
 	print(data.decode())
 	print("Если вы хотите прервать соединение с сервером, введите \"exit\"")
-sock.close()
+	
+	if msg == "exit":
+		sock.close()
